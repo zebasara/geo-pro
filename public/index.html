@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Geo Pro – GPS Profesional para Vehículos | Tandil</title>
+  <meta name="description" content="Instalamos dispositivos GPS de alta precisión en motos, autos, camiones y flotas. Rastreo en tiempo real, app Android e iOS. Tandil y zona." />
+  <meta name="keywords" content="GPS vehicular Tandil, rastreo GPS motos, seguimiento flotas, GPS autos Tandil, monitoreo GPS" />
+  <meta name="author" content="Geo Pro" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Geo Pro – GPS Profesional para Vehículos" />
+  <meta property="og:description" content="Instalamos GPS de alta precisión en motos, autos, camiones y flotas. Rastreo en tiempo real desde tu celular. Tandil y zona." />
+  <meta property="og:image" content="logo.png" />
+  <meta property="og:url" content="https://geopro.com.ar" />
+  <meta property="og:locale" content="es_AR" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Geo Pro – GPS Profesional para Vehículos" />
+  <meta name="twitter:description" content="Rastreo GPS en tiempo real. Motos, autos, camiones y flotas. Tandil." />
+  <meta name="twitter:image" content="logo.png" />
+
+  <link rel="icon" type="image/png" href="logo.png" />
+  <link rel="apple-touch-icon" href="logo.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --blue: #1a4fa0;
+      --blue-light: #2563eb;
+      --green: #2d7a1f;
+      --green-light: #4ade80;
+      --amber: #f59e0b;
+      --dark:  #080b12;
+      --dark2: #0d1120;
+      --dark3: #111828;
+      --surface: #161d2e;
+      --surface2: #1c2540;
+      --text: #e4e8f4;
+      --text-muted: #7a86a0;
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(255,255,255,0.15);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; background: var(--dark); color: var(--text); overflow-x: hidden; }
+    body::after {
+      content: ''; position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none; z-index: 999; opacity: .5;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 5%;
+      background: rgba(8,11,18,0.9); backdrop-filter: blur(20px) saturate(160%);
+      border-bottom: 1px solid var(--border);
+    }
+    nav img { height: 48px; object-fit: contain; }
+    nav ul { display: flex; gap: 2rem; list-style: none; }
+    nav ul a { color: var(--text-muted); text-decoration: none; font-family: 'Rajdhani', sans-serif; font-size: .88rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; transition: color .2s; }
+    nav ul a:hover { color: var(--text); }
+    .nav-cta { background: var(--blue-light) !important; color: #fff !important; padding: .42rem 1.2rem; border-radius: 6px; transition: background .2s !important; }
+    .nav-cta:hover { background: var(--blue) !important; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 24px; height: 2px; background: var(--text); border-radius: 2px; display: block; }
+
+    /* HERO */
+    #hero { min-height: 100vh; display: grid; place-items: center; padding: 8rem 5% 5rem; position: relative; overflow: hidden; }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 55% at 15% 65%, rgba(26,79,160,.22) 0%, transparent 65%),
+                  radial-gradient(ellipse 55% 45% at 85% 35%, rgba(45,122,31,.15) 0%, transparent 65%),
+                  linear-gradient(180deg, var(--dark) 0%, var(--dark2) 100%);
+    }
+    .hero-bg::before {
+      content: ''; position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(37,99,235,.05) 1px, transparent 1px), linear-gradient(90deg, rgba(37,99,235,.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 40%, transparent 100%);
+    }
+    .hero-bg::after { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(37,99,235,.15) 1px, transparent 1px); background-size: 32px 32px; animation: drift 20s linear infinite; opacity: .4; }
+    @keyframes drift { from { background-position: 0 0; } to { background-position: 32px 32px; } }
+
+    .hero-inner { position: relative; z-index: 1; text-align: center; max-width: 860px; animation: fadeUp .8s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-badge { display: inline-flex; align-items: center; gap: .5rem; background: rgba(37,99,235,.1); border: 1px solid rgba(37,99,235,.28); color: #93c5fd; font-family: 'Rajdhani', sans-serif; font-size: .76rem; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; padding: .3rem 1rem; border-radius: 999px; margin-bottom: 1.6rem; }
+    .hero-badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green-light); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.5; transform:scale(.8); } }
+
+    h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(2.8rem, 7.5vw, 5.2rem); font-weight: 700; line-height: 1.04; margin-bottom: 1.3rem; }
+    h1 em { font-style: normal; background: linear-gradient(120deg, #60a5fa, var(--green-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero-sub { font-size: 1.12rem; color: var(--text-muted); max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.75; }
+    .hero-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .85rem 2rem; border-radius: 8px; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: .95rem; letter-spacing: .06em; text-transform: uppercase; text-decoration: none; border: none; cursor: pointer; transition: transform .2s, box-shadow .2s, background .2s; }
+    .btn-primary { background: linear-gradient(135deg, var(--blue-light), var(--blue)); color: #fff; box-shadow: 0 4px 22px rgba(37,99,235,.4); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(37,99,235,.55); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { border-color: var(--border-hover); background: rgba(255,255,255,.04); }
+    .btn-green { background: linear-gradient(135deg, #16a34a, #15803d); color: #fff; box-shadow: 0 4px 22px rgba(22,163,74,.35); }
+    .btn-green:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(22,163,74,.5); }
+
+    .hero-stats { display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; padding-top: 2.5rem; border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Rajdhani', sans-serif; font-size: 2.4rem; font-weight: 700; background: linear-gradient(135deg, #fff 40%, var(--text-muted)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .stat-label { font-size: .76rem; color: var(--text-muted); letter-spacing: .06em; margin-top: .15rem; text-transform: uppercase; }
+
+    /* SHARED */
+    section { padding: 6rem 5%; position: relative; z-index: 1; }
+    .container { max-width: 1100px; margin: 0 auto; }
+    .section-tag { font-family: 'Rajdhani', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .25em; text-transform: uppercase; color: var(--blue-light); margin-bottom: .7rem; }
+    .section-title { font-family: 'Rajdhani', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; line-height: 1.1; margin-bottom: 1rem; }
+    .section-sub { color: var(--text-muted); line-height: 1.75; font-size: 1rem; }
+
+    /* SERVICES */
+    #servicios { background: var(--dark2); }
+    .services-header { text-align: center; margin-bottom: 3.5rem; }
+    .services-header .section-sub { max-width: 500px; margin: 0 auto; }
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.4rem; }
+    .scard { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 2rem 1.7rem; position: relative; overflow: hidden; transition: transform .25s, box-shadow .25s; }
+    .scard::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--blue-light), var(--green-light)); opacity: 0; transition: opacity .25s; }
+    .scard:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,.35); }
+    .scard:hover::before { opacity: 1; }
+    .scard-icon { font-size: 2.4rem; margin-bottom: 1.1rem; display: block; }
+    .scard h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: .45rem; }
+    .scard p { color: var(--text-muted); font-size: .88rem; line-height: 1.65; }
+
+    /* APP BADGES */
+    .app-stores { display: flex; align-items: center; gap: .8rem; margin-top: 1.4rem; flex-wrap: wrap; justify-content: center; }
+    .store-badge { display: inline-flex; align-items: center; gap: .55rem; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: 8px; padding: .5rem 1rem; text-decoration: none; color: var(--text); line-height: 1.25; transition: background .2s, border-color .2s; }
+    .store-badge:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.2); }
+    .store-badge .sbsub { font-size: .6rem; color: var(--text-muted); display: block; letter-spacing: .04em; }
+    .store-badge .sbname { font-weight: 600; font-size: .82rem; display: block; }
+
+    /* HOW IT WORKS */
+    #como-funciona { background: var(--dark); }
+    .how-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .steps { display: flex; flex-direction: column; gap: 2rem; margin-top: 2rem; }
+    .step { display: flex; gap: 1.2rem; align-items: flex-start; }
+    .step-num { width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0; background: linear-gradient(135deg, var(--blue-light), var(--blue)); display: flex; align-items: center; justify-content: center; font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: 1rem; box-shadow: 0 0 20px rgba(37,99,235,.3); }
+    .step-text h4 { font-family: 'Rajdhani', sans-serif; font-size: 1.1rem; font-weight: 700; margin-bottom: .3rem; }
+    .step-text p { color: var(--text-muted); font-size: .88rem; line-height: 1.6; }
+    .how-visual { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; text-align: center; position: relative; overflow: hidden; }
+    .how-visual::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 80% at 50% 50%, rgba(37,99,235,.08), transparent 70%); }
+    .visual-icon { font-size: 5rem; display: block; margin-bottom: 1rem; position: relative; z-index: 1; }
+    .visual-text { color: var(--text-muted); font-size: .9rem; line-height: 1.7; position: relative; z-index: 1; margin-bottom: 1.5rem; }
+    .ping-ring { position: absolute; top: 42%; left: 50%; transform: translate(-50%,-50%); width: 160px; height: 160px; border-radius: 50%; border: 1px solid rgba(37,99,235,.25); animation: ring 3s ease-out infinite; }
+    .ping-ring:nth-child(2) { animation-delay: 1s; }
+    .ping-ring:nth-child(3) { animation-delay: 2s; }
+    @keyframes ring { 0% { transform: translate(-50%,-50%) scale(.5); opacity:.8; } 100% { transform: translate(-50%,-50%) scale(2.2); opacity:0; } }
+
+    /* PRICING */
+    #inversiones { background: var(--dark2); }
+    .pricing-header { text-align: center; margin-bottom: 3.5rem; }
+    .pricing-note-banner { max-width: 640px; margin: 0 auto 1.5rem; background: rgba(37,99,235,.08); border: 1px solid rgba(37,99,235,.2); border-radius: 10px; padding: 1rem 1.5rem; text-align: center; color: #93c5fd; font-size: .88rem; line-height: 1.65; }
+    .first-month-banner { max-width: 640px; margin: 0 auto 2.5rem; background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.25); border-radius: 10px; padding: 1rem 1.5rem; text-align: center; color: #fcd34d; font-size: .9rem; line-height: 1.65; }
+
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; max-width: 980px; margin: 0 auto 2rem; }
+
+    .pcard { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2.2rem; text-align: center; position: relative; transition: transform .25s; display: flex; flex-direction: column; }
+    .pcard:hover { transform: translateY(-4px); }
+    .pcard.featured { border-color: var(--blue-light); box-shadow: 0 0 0 1px var(--blue-light), 0 8px 40px rgba(37,99,235,.2); }
+    .feat-badge { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); background: linear-gradient(135deg, var(--blue-light), var(--blue)); color: #fff; font-family: 'Rajdhani', sans-serif; font-size: .7rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: .28rem 1rem; border-radius: 999px; white-space: nowrap; }
+
+    .pcard-icon { font-size: 2.4rem; margin-bottom: .9rem; display: block; }
+    .pcard-name { font-family: 'Rajdhani', sans-serif; font-size: 1.3rem; font-weight: 700; margin-bottom: .3rem; }
+    .pcard-price { font-family: 'Rajdhani', sans-serif; font-size: 2.6rem; font-weight: 700; margin-bottom: .2rem; line-height: 1; color: #fff; }
+    .pcard-price-note { font-size: .8rem; color: var(--text-muted); margin-bottom: .9rem; }
+
+    .pcard-mensual { background: rgba(74,222,128,.07); border: 1px solid rgba(74,222,128,.18); border-radius: 8px; padding: .75rem 1rem; margin-bottom: .7rem; }
+    .mensual-label { font-size: .65rem; color: var(--text-muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: .2rem; }
+    .mensual-price { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; color: var(--green-light); line-height: 1.25; }
+    .mensual-price small { font-size: .76rem; color: var(--text-muted); font-weight: 400; }
+    .mensual-adj { font-size: .65rem; color: var(--text-muted); margin-top: .15rem; font-style: italic; }
+
+    .primer-mes-tag { background: rgba(245,158,11,.12); border: 1px solid rgba(245,158,11,.3); border-radius: 6px; padding: .4rem .8rem; margin-bottom: 1.1rem; display: inline-block; }
+    .primer-mes-tag span { font-family: 'Rajdhani', sans-serif; font-size: .75rem; font-weight: 700; color: #fcd34d; letter-spacing: .06em; text-transform: uppercase; }
+
+    .pcard-features { list-style: none; text-align: left; margin-bottom: 1.8rem; flex: 1; }
+    .pcard-features li { display: flex; align-items: center; gap: .6rem; font-size: .87rem; color: var(--text-muted); padding: .38rem 0; border-bottom: 1px solid var(--border); }
+    .pcard-features li:last-child { border-bottom: none; }
+    .pcard-features .check { color: var(--green-light); }
+
+    .mensual-disclaimer { max-width: 740px; margin: 0 auto; background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 10px; padding: 1.2rem 1.8rem; text-align: center; }
+    .mensual-disclaimer p { font-size: .84rem; color: var(--text-muted); line-height: 1.72; }
+    .mensual-disclaimer strong { color: var(--text); }
+
+    /* CONTACT */
+    #contacto { background: var(--dark); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 4rem; align-items: start; }
+    .contact-info .section-sub { margin-bottom: 2rem; }
+    .contact-detail { display: flex; align-items: center; gap: 1rem; padding: .9rem 0; border-bottom: 1px solid var(--border); }
+    .contact-detail:first-of-type { border-top: 1px solid var(--border); }
+    .cicon { font-size: 1.3rem; width: 42px; height: 42px; border-radius: 10px; background: var(--surface); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .ctext span { font-size: .7rem; color: var(--text-muted); display: block; letter-spacing: .06em; text-transform: uppercase; }
+    .ctext a { color: var(--text); text-decoration: none; font-size: .95rem; font-weight: 500; }
+    .ctext a:hover { color: var(--blue-light); }
+
+    /* FORMS */
+    .form-tabs { display: flex; gap: .6rem; margin-bottom: .6rem; }
+    .tab-btn { flex: 1; padding: .75rem .8rem; border-radius: 8px; border: 1px solid var(--border); background: var(--surface); color: var(--text-muted); font-family: 'Rajdhani', sans-serif; font-weight: 700; font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; transition: all .2s; }
+    .tab-btn.active { background: var(--blue-light); color: #fff; border-color: var(--blue-light); }
+    .tab-btn.active-green { background: #16a34a; color: #fff; border-color: #16a34a; }
+    .form-panel { display: none; }
+    .form-panel.active { display: block; }
+    .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; }
+    .form-card h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; margin-bottom: .4rem; }
+    .form-desc { color: var(--text-muted); font-size: .84rem; margin-bottom: 1.4rem; line-height: 1.6; }
+    .discount-banner { background: rgba(22,163,74,.1); border: 1px solid rgba(22,163,74,.25); border-radius: 8px; padding: .75rem 1rem; margin-bottom: 1rem; color: var(--green-light); font-size: .85rem; text-align: center; font-weight: 500; }
+    .first-month-form-banner { background: rgba(245,158,11,.08); border: 1px solid rgba(245,158,11,.25); border-radius: 8px; padding: .65rem 1rem; margin-bottom: 1.2rem; color: #fcd34d; font-size: .82rem; text-align: center; }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; font-size: .72rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; color: var(--text-muted); margin-bottom: .4rem; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: .75rem 1rem; background: var(--dark3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .92rem; transition: border-color .2s, box-shadow .2s; outline: none; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--blue-light); box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+    .form-group textarea { resize: vertical; min-height: 88px; }
+    .form-group select option { background: var(--dark3); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .price-preview { background: var(--dark3); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.1rem; }
+    .price-preview-row { display: flex; justify-content: space-between; align-items: center; font-size: .88rem; margin-bottom: .38rem; }
+    .price-preview-row:last-child { margin-bottom: 0; font-weight: 700; font-size: 1rem; color: var(--green-light); border-top: 1px solid var(--border); padding-top: .5rem; margin-top: .3rem; }
+    .strike { text-decoration: line-through; color: var(--text-muted); }
+    .form-submit { width: 100%; }
+    .form-privacy { font-size: .73rem; color: var(--text-muted); text-align: center; margin-top: .8rem; line-height: 1.6; }
+
+    /* FOOTER */
+    footer { background: var(--dark2); border-top: 1px solid var(--border); padding: 3rem 5%; text-align: center; }
+    footer img { height: 46px; margin-bottom: 1rem; opacity: .85; }
+    footer p { color: var(--text-muted); font-size: .83rem; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin: 1rem 0; }
+    .footer-links a { color: var(--text-muted); text-decoration: none; font-size: .83rem; transition: color .2s; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-tagline { font-family: 'Rajdhani', sans-serif; font-size: 1rem; color: var(--text-muted); margin-bottom: .5rem; letter-spacing: .04em; }
+
+    /* MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,.75); backdrop-filter: blur(6px); place-items: center; }
+    .modal-overlay.open { display: grid; }
+    .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 2.5rem; max-width: 440px; width: 90%; text-align: center; animation: popIn .3s cubic-bezier(.22,1,.36,1) both; }
+    @keyframes popIn { from { transform: scale(.92); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+    .modal-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .modal h3 { font-family: 'Rajdhani', sans-serif; font-size: 1.6rem; font-weight: 700; margin-bottom: .6rem; }
+    .modal p { color: var(--text-muted); font-size: .92rem; line-height: 1.7; margin-bottom: 1.5rem; }
+
+    /* TOAST */
+    .toast { position: fixed; bottom: 2rem; right: 2rem; z-index: 300; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.4rem; font-size: .88rem; max-width: 320px; transform: translateY(120%); transition: transform .35s cubic-bezier(.22,1,.36,1); display: flex; align-items: center; gap: .7rem; }
+    .toast.show { transform: translateY(0); }
+    .toast.error { border-color: rgba(239,68,68,.4); }
+
+    /* WA FLOAT */
+    .wa-float { position: fixed; bottom: 2rem; left: 2rem; z-index: 150; width: 52px; height: 52px; border-radius: 50%; background: #25d366; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 20px rgba(37,211,102,.4); text-decoration: none; transition: transform .2s, box-shadow .2s; }
+    .wa-float:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(37,211,102,.6); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav ul { display: none; }
+      nav ul.open { display: flex; flex-direction: column; gap: 1rem; position: fixed; top: 64px; left: 0; right: 0; background: var(--dark2); padding: 1.5rem 5%; border-bottom: 1px solid var(--border); z-index: 99; }
+      .hamburger { display: flex; }
+      .how-inner, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .hero-stats { gap: 1.5rem; }
+    }
+
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+<nav>
+  <img src="logo.png" alt="Geo Pro" />
+  <ul id="nav-menu">
+    <li><a href="#servicios">Soluciones</a></li>
+    <li><a href="#como-funciona">¿Cómo funciona?</a></li>
+    <li><a href="#inversiones">Inversión</a></li>
+    <li><a href="#contacto" class="nav-cta">Consultar ahora</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="dot"></span>Instalación profesional · Tandil y zona</div>
+    <h1>Tu vehículo,<br>siempre <em>bajo control</em></h1>
+    <p class="hero-sub">Equipamos motos, autos, camiones y flotas con dispositivos GPS de alta precisión. Rastreo en tiempo real, alertas instantáneas y soporte local las 24 horas.</p>
+    <div class="hero-btns">
+      <a href="#contacto" class="btn btn-primary">💬 Solicitar asesoramiento</a>
+      <a href="#inversiones" class="btn btn-outline">Ver valores</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">+200</div><div class="stat-label">Dispositivos activos</div></div>
+      <div class="stat"><div class="stat-num">24hs</div><div class="stat-label">Soporte disponible</div></div>
+      <div class="stat"><div class="stat-num">5★</div><div class="stat-label">Satisfacción clientes</div></div>
+      <div class="stat"><div class="stat-num">3 años</div><div class="stat-label">Trayectoria</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="servicios">
+  <div class="container">
+    <div class="services-header fade-in">
+      <div class="section-tag">Nuestras soluciones</div>
+      <h2 class="section-title">Una solución para cada tipo de vehículo</h2>
+      <p class="section-sub">Desde una moto hasta una flota de camiones, contamos con el dispositivo y la plataforma indicada para cada necesidad.</p>
+    </div>
+    <div class="services-grid">
+      <div class="scard fade-in"><span class="scard-icon">🏍️</span><h3>Motocicletas</h3><p>Instalación discreta y resistente. La solución ideal para proteger tu moto de robos y mantener el control desde donde estés.</p></div>
+      <div class="scard fade-in"><span class="scard-icon">🚗</span><h3>Automóviles</h3><p>Ubicación en tiempo real, historial de recorridos y geocercas personalizadas. Seguridad y tranquilidad para toda la familia.</p></div>
+      <div class="scard fade-in"><span class="scard-icon">🚛</span><h3>Camiones</h3><p>Monitoreo de rutas, velocidad y detenciones no programadas. Protegé tu inversión y optimizá cada traslado.</p></div>
+      <div class="scard fade-in"><span class="scard-icon">🚌</span><h3>Flotas</h3><p>Panel centralizado para gestionar toda tu flota desde una sola pantalla. Reportes automáticos y aranceles especiales por volumen.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="como-funciona">
+  <div class="container">
+    <div class="how-inner">
+      <div class="fade-in">
+        <div class="section-tag">El proceso</div>
+        <h2 class="section-title">Simple, rápido<br>y sin vueltas</h2>
+        <p class="section-sub">En menos de 24 horas podés tener tu dispositivo GPS instalado y tu vehículo protegido.</p>
+        <div class="steps">
+          <div class="step"><div class="step-num">1</div><div class="step-text"><h4>Elegís tu solución</h4><p>Seleccionás el dispositivo que mejor se adapta a tu vehículo y a tu estilo de vida.</p></div></div>
+          <div class="step"><div class="step-num">2</div><div class="step-text"><h4>Te contactamos</h4><p>Coordinamos día y lugar de instalación a tu medida. Vamos hasta donde estás vos.</p></div></div>
+          <div class="step"><div class="step-num">3</div><div class="step-text"><h4>Instalación profesional</h4><p>Nuestro técnico realiza la instalación de forma limpia y discreta. El proceso demanda menos de una hora.</p></div></div>
+          <div class="step"><div class="step-num">4</div><div class="step-text"><h4>Monitoreás desde tu celular</h4><p>Configuramos la app en el acto. Disponible para <strong>Android</strong> e <strong>iOS</strong>: rastreás tu vehículo desde cualquier lugar.</p></div></div>
+        </div>
+      </div>
+      <div class="how-visual fade-in">
+        <div class="ping-ring"></div><div class="ping-ring"></div><div class="ping-ring"></div>
+        <span class="visual-icon">📍</span>
+        <p class="visual-text">Tu vehículo aparece en el mapa en tiempo real.<br>Actualizaciones cada 30 segundos.<br>Acceso desde cualquier dispositivo, en cualquier momento.</p>
+        <div class="app-stores">
+          <a href="#contacto" class="store-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span><span class="sbsub">Disponible en</span><span class="sbname">App Store</span></span>
+          </a>
+          <a href="#contacto" class="store-badge">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.18 23.76c.3.17.64.19.96.07l12.45-7.2-2.67-2.67-10.74 9.8zm-1.7-20.1C1.2 3.96 1 4.34 1 4.83v14.34c0 .49.2.87.48 1.17l.06.06L8.82 13.1v-.2L1.54 3.6l-.06.06zM19.64 10.7L17.2 9.3l-2.96 2.96 2.96 2.96 2.46-1.42c.7-.4.7-1.07 0-1.47l-.02-.63zM4.14.23L16.6 7.44l-2.67 2.67L4.14.23C3.82.1 3.48.13 3.18.3l.96-.07z"/></svg>
+            <span><span class="sbsub">Disponible en</span><span class="sbname">Google Play</span></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="inversiones">
+  <div class="container">
+    <div class="pricing-header fade-in">
+      <div class="section-tag">Inversión</div>
+      <h2 class="section-title">Valores transparentes,<br>sin sorpresas</h2>
+      <p class="section-sub" style="margin:0 auto;max-width:500px;">Consultanos para recibir un presupuesto a medida según tu vehículo y necesidades específicas.</p>
+    </div>
+    <div class="pricing-note-banner fade-in">
+      🎁 <strong>Contratando desde esta página accedés a un 10% de descuento</strong> sobre el valor final. El beneficio se aplica automáticamente al abonar.
+    </div>
+    <div class="first-month-banner fade-in">
+      🎉 <strong>¡Primer mes de servicio de monitoreo sin cargo!</strong> El arancel mensual comienza a partir del segundo mes de activación.
+    </div>
+
+    <div id="pricing-cards-container">
+      <div style="text-align:center;padding:2rem;color:var(--text-muted);">Cargando valores...</div>
+    </div>
+
+    <div class="mensual-disclaimer fade-in">
+      <p>
+        📋 <strong>Arancel mensual de monitoreo, soporte técnico y mantenimiento de plataforma:</strong>
+        cubre el rastreo en tiempo real, actualizaciones del sistema, soporte técnico personalizado y acceso a la aplicación móvil.
+        <strong>Dicho arancel está sujeto a revisión periódica en función del contexto macroeconómico vigente</strong>,
+        con el objetivo de mantener la sustentabilidad y calidad del servicio.
+        Todo ajuste es comunicado con anticipación a cada cliente activo.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="contacto">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="fade-in">
+        <div class="section-tag">Contacto</div>
+        <h2 class="section-title">¿Hablamos?</h2>
+        <p class="section-sub">Respondemos rápido. Podés escribirnos, llamarnos o completar el formulario y nosotros te contactamos a la brevedad.</p>
+        <div class="contact-detail"><div class="cicon">📱</div><div class="ctext"><span>WhatsApp / Línea directa</span><a href="https://wa.me/542494207145" target="_blank">249 4207145</a></div></div>
+        <div class="contact-detail"><div class="cicon">✉️</div><div class="ctext"><span>Correo electrónico</span><a href="mailto:geoprotandil@gmail.com">geoprotandil@gmail.com</a></div></div>
+        <div class="contact-detail"><div class="cicon">📍</div><div class="ctext"><span>Cobertura de instalación</span><a href="#">Tandil y zona de influencia</a></div></div>
+        <div class="contact-detail"><div class="cicon">📲</div><div class="ctext"><span>Plataforma de monitoreo</span><a href="#">Disponible en Android e iOS</a></div></div>
+      </div>
+
+      <div class="fade-in">
+        <div class="form-tabs">
+          <button class="tab-btn active" id="tab-consulta" onclick="switchTab('consulta')">💬 Solicitar asesoramiento</button>
+          <button class="tab-btn" id="tab-compra" onclick="switchTab('compra')">🛒 Contratar con 10% OFF</button>
+        </div>
+
+        <div class="form-panel active" id="panel-consulta">
+          <div class="form-card">
+            <h3>Solicitá tu asesoramiento</h3>
+            <p class="form-desc">Completá el formulario y un asesor se comunica con vos en menos de 2 horas en horario hábil.</p>
+            <form id="form-consulta">
+              <div class="form-row">
+                <div class="form-group"><label>Nombre *</label><input type="text" name="nombre" placeholder="Tu nombre" required /></div>
+                <div class="form-group"><label>Teléfono *</label><input type="tel" name="telefono" placeholder="Tu número" required /></div>
+              </div>
+              <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="tu@email.com" /></div>
+              <div class="form-group">
+                <label>Tipo de vehículo</label>
+                <select name="vehiculo">
+                  <option value="">Seleccioná...</option>
+                  <option>Moto</option><option>Auto</option><option>Camión</option><option>Flota</option><option>Otro</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Consulta o requerimiento</label><textarea name="mensaje" placeholder="Contanos qué necesitás y te armamos una propuesta..."></textarea></div>
+              <button type="submit" class="btn btn-primary form-submit">Enviar solicitud →</button>
+              <p class="form-privacy">Al enviar autorizás que te contactemos vía WhatsApp o email. Tu información es confidencial y no se comparte con terceros.</p>
+            </form>
+          </div>
+        </div>
+
+        <div class="form-panel" id="panel-compra">
+          <div class="form-card">
+            <h3>Contratá con beneficio exclusivo</h3>
+            <p class="form-desc">Completá tus datos, elegí la solución y abonás. Luego coordinamos la instalación a domicilio sin costo adicional.</p>
+            <div class="discount-banner">🎁 <strong>10% de descuento exclusivo</strong> por contratar desde nuestra web</div>
+            <div class="first-month-form-banner">🎉 <strong>Primer mes de monitoreo sin cargo</strong> incluido en tu contratación</div>
+            <form id="form-compra">
+              <div class="form-row">
+                <div class="form-group"><label>Nombre completo *</label><input type="text" name="nombre" placeholder="Tu nombre" required /></div>
+                <div class="form-group"><label>Teléfono *</label><input type="tel" name="telefono" placeholder="Tu número" required /></div>
+              </div>
+              <div class="form-group"><label>Email *</label><input type="email" name="email" placeholder="Para enviarte la confirmación" required /></div>
+              <div class="form-group">
+                <label>Solución que querés contratar *</label>
+                <select name="servicio" id="servicio-select" onchange="updatePrice()" required>
+                  <option value="">Cargando opciones...</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Dirección de instalación</label><input type="text" name="direccion" placeholder="Donde se encuentra el vehículo" /></div>
+              <div class="form-group"><label>Observaciones adicionales</label><textarea name="nota" placeholder="Cualquier detalle relevante..." style="min-height:70px;"></textarea></div>
+              <div class="price-preview" id="price-preview" style="display:none;">
+                <div class="price-preview-row"><span>Valor de lista</span><span class="strike" id="price-original">-</span></div>
+                <div class="price-preview-row"><span>Descuento web (10%)</span><span style="color:var(--green-light);" id="price-discount">-</span></div>
+                <div class="price-preview-row"><span>Total a abonar</span><span id="price-final">-</span></div>
+              </div>
+              <button type="submit" class="btn btn-green form-submit" id="btn-pagar">Abonar con MercadoPago 💳</button>
+              <p class="form-privacy">Transacción 100% segura procesada por MercadoPago. No almacenamos datos de tu tarjeta. Una vez acreditado el pago, un asesor coordina la instalación con vos.</p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <img src="logo.png" alt="Geo Pro" />
+  <p class="footer-tagline">Protección GPS profesional · Tandil y zona</p>
+  <div class="footer-links">
+    <a href="#servicios">Soluciones</a>
+    <a href="#inversiones">Valores</a>
+    <a href="#contacto">Contacto</a>
+    <a href="https://wa.me/542494207145" target="_blank">WhatsApp</a>
+    <a href="mailto:geoprotandil@gmail.com">geoprotandil@gmail.com</a>
+  </div>
+  <p>© 2025 Geo Pro · Tandil, Buenos Aires · Todos los derechos reservados</p>
+</footer>
+
+<a class="wa-float" href="https://wa.me/542494207145?text=Hola%20Geo%20Pro%2C%20quiero%20consultar%20sobre%20GPS" target="_blank">
+  <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<div class="modal-overlay" id="modal-success">
+  <div class="modal">
+    <div class="modal-icon" id="modal-icon">✅</div>
+    <h3 id="modal-title">¡Solicitud enviada!</h3>
+    <p id="modal-msg">Recibimos tu mensaje. Un asesor se comunica con vos en menos de 2 horas.</p>
+    <button class="btn btn-primary" onclick="closeModal()" style="border:none;">Perfecto, gracias</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span id="toast-icon">ℹ️</span><span id="toast-msg">Mensaje</span></div>
+
+<script>
+// ── Valores por defecto (funcionan SIN servidor corriendo) ──
+const DEFAULT_CONFIG = {
+  precios: {
+    moto:    80000,
+    auto:    120000,
+    camion:  200000,
+    flota:   200000,
+  },
+  mensual: {
+    precio_standard:       15000,
+    precio_flota:          13500,
+    flota_minimo_unidades: 30,
+  }
+};
+
+let CONFIG = DEFAULT_CONFIG;
+
+async function loadConfig() {
+  try {
+    const res = await fetch('/api/config');
+    if (!res.ok) throw new Error();
+    CONFIG = await res.json();
+  } catch {
+    CONFIG = DEFAULT_CONFIG;
+  } finally {
+    renderPricingCards();
+    renderServiceSelect();
+  }
+}
+
+function fmt(n) { return '$' + Number(n).toLocaleString('es-AR'); }
+
+function renderPricingCards() {
+  const p = CONFIG.precios;
+  const m = CONFIG.mensual;
+
+  const cards = [
+    {
+      icon: '🏍️', name: 'GPS para Moto', key: 'moto', price: p.moto,
+      note: 'Valor estimado · incluye instalación a domicilio',
+      features: ['Rastreo en tiempo real', 'Alertas de movimiento y vibración', 'Historial de recorridos 30 días', 'App Android / iOS', 'Acceso web incluido'],
+      featured: false, flota: false
+    },
+    {
+      icon: '🚗', name: 'GPS para Auto', key: 'auto', price: p.auto,
+      note: 'Valor estimado · incluye instalación a domicilio',
+      features: ['Rastreo en tiempo real', 'Geocercas personalizadas', 'Historial de recorridos 90 días', 'App Android / iOS + acceso web', 'Corte remoto del motor'],
+      featured: true, flota: false
+    },
+    {
+      icon: '🚛', name: 'GPS para Camión', key: 'camion', price: p.camion,
+      note: 'Valor por unidad · arancel especial para flotas',
+      features: ['Rastreo en tiempo real', 'Control de rutas y velocidad', 'Historial de recorridos 90 días', 'App Android / iOS + acceso web', 'Panel multi-vehículo'],
+      featured: false, flota: true
+    },
+  ];
+
+  const html = `<div class="pricing-grid">` + cards.map(c => `
+    <div class="pcard${c.featured ? ' featured' : ''} fade-in">
+      ${c.featured ? '<div class="feat-badge">La solución más elegida</div>' : ''}
+      <span class="pcard-icon">${c.icon}</span>
+      <div class="pcard-name">${c.name}</div>
+      <div class="pcard-price">${fmt(c.price)}</div>
+      <div class="pcard-price-note">${c.note}</div>
+      <div class="pcard-mensual">
+        <div class="mensual-label">Arancel mensual de servicio</div>
+        <div class="mensual-price">
+          ${c.flota
+            ? `${fmt(m.precio_standard)}<small>/mes &nbsp;·&nbsp; flota +${m.flota_minimo_unidades} unidades: ${fmt(m.precio_flota)}/mes</small>`
+            : `${fmt(m.precio_standard)}<small>/mes por vehículo</small>`
+          }
+        </div>
+        <div class="mensual-adj">Sujeto a revisión por contexto macroeconómico</div>
+      </div>
+      <div class="primer-mes-tag"><span>🎉 Primer mes de servicio sin cargo</span></div>
+      <ul class="pcard-features">
+        ${c.features.map(f => `<li><span class="check">✓</span> ${f}</li>`).join('')}
+      </ul>
+      <a href="#contacto" class="btn ${c.featured ? 'btn-primary' : 'btn-outline'} form-submit" onclick="openBuyTab()">Contratar ahora</a>
+    </div>
+  `).join('') + `</div>`;
+
+  document.getElementById('pricing-cards-container').innerHTML = html;
+  document.querySelectorAll('#pricing-cards-container .fade-in').forEach(el => observer.observe(el));
+}
+
+function renderServiceSelect() {
+  const p = CONFIG.precios;
+  const opts = [
+    { v: 'moto',   pr: p.moto,   l: '🏍️ GPS para Moto' },
+    { v: 'auto',   pr: p.auto,   l: '🚗 GPS para Auto' },
+    { v: 'camion', pr: p.camion, l: '🚛 GPS para Camión / Flota' },
+  ];
+  const sel = document.getElementById('servicio-select');
+  sel.innerHTML = '<option value="">Seleccioná una solución...</option>' +
+    opts.map(o => `<option value="${o.v}" data-price="${o.pr}">${o.l} (${fmt(o.pr)})</option>`).join('');
+}
+
+// NAV
+const hamburger = document.getElementById('hamburger');
+const navMenu   = document.getElementById('nav-menu');
+hamburger.addEventListener('click', () => navMenu.classList.toggle('open'));
+navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navMenu.classList.remove('open')));
+
+// TABS
+function switchTab(tab) {
+  document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active', 'active-green'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  if (tab === 'consulta') document.getElementById('tab-consulta').classList.add('active');
+  else document.getElementById('tab-compra').classList.add('active-green');
+}
+function openBuyTab() {
+  document.getElementById('contacto').scrollIntoView({ behavior: 'smooth' });
+  setTimeout(() => switchTab('compra'), 400);
+}
+
+// PRICE PREVIEW
+function updatePrice() {
+  const sel  = document.getElementById('servicio-select');
+  const opt  = sel.selectedOptions[0];
+  const prev = document.getElementById('price-preview');
+  if (!opt || !opt.dataset.price) { prev.style.display = 'none'; return; }
+  const original = parseInt(opt.dataset.price);
+  const discount = Math.round(original * 0.10);
+  const final    = original - discount;
+  document.getElementById('price-original').textContent = fmt(original);
+  document.getElementById('price-discount').textContent = '-' + fmt(discount);
+  document.getElementById('price-final').textContent    = fmt(final);
+  prev.style.display = 'block';
+}
+
+// FORM CONSULTA
+document.getElementById('form-consulta').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const btn = this.querySelector('button[type=submit]');
+  btn.textContent = 'Enviando...'; btn.disabled = true;
+  try {
+    const res = await fetch('/api/consulta', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(Object.fromEntries(new FormData(this))) });
+    if (res.ok) { this.reset(); showModal('✅', '¡Solicitud enviada!', 'Recibimos tu consulta. Un asesor se comunica con vos en menos de 2 horas. También podés escribirnos al WhatsApp para una respuesta inmediata.'); }
+    else throw new Error();
+  } catch { showToast('❌', 'Hubo un error al enviar. Escribinos directo al WhatsApp.', 'error'); }
+  finally { btn.textContent = 'Enviar solicitud →'; btn.disabled = false; }
+});
+
+// FORM COMPRA
+document.getElementById('form-compra').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const sel = document.getElementById('servicio-select');
+  const opt = sel.selectedOptions[0];
+  if (!opt || !opt.dataset.price) { showToast('⚠️', 'Seleccioná una solución primero.', 'error'); return; }
+  const btn = document.getElementById('btn-pagar');
+  btn.textContent = 'Procesando...'; btn.disabled = true;
+  const data         = Object.fromEntries(new FormData(this));
+  const originalPrice = parseInt(opt.dataset.price);
+  data.precio_final   = Math.round(originalPrice * 0.90);
+  data.precio_original = originalPrice;
+  data.servicio_label  = opt.text;
+  try {
+    const res  = await fetch('/api/crear-pago', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(data) });
+    const json = await res.json();
+    if (json.init_point) window.location.href = json.init_point;
+    else throw new Error(json.error || 'Error');
+  } catch { showToast('❌', 'No se pudo iniciar el pago. Intentá de nuevo o contactanos.', 'error'); }
+  finally { btn.textContent = 'Abonar con MercadoPago 💳'; btn.disabled = false; }
+});
+
+// MODAL
+function showModal(icon, title, msg) {
+  document.getElementById('modal-icon').textContent = icon;
+  document.getElementById('modal-title').textContent = title;
+  document.getElementById('modal-msg').textContent   = msg;
+  document.getElementById('modal-success').classList.add('open');
+}
+function closeModal() { document.getElementById('modal-success').classList.remove('open'); }
+document.getElementById('modal-success').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+// TOAST
+function showToast(icon, msg, type = '') {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-icon').textContent = icon;
+  document.getElementById('toast-msg').textContent  = msg;
+  t.className = 'toast ' + type + ' show';
+  setTimeout(() => t.classList.remove('show'), 4500);
+}
+
+// SCROLL ANIMATIONS
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// RESULTADO DE PAGO
+const params = new URLSearchParams(window.location.search);
+if (params.get('pago') === 'ok')        showModal('🎉', '¡Pago acreditado!', 'Tu operación fue procesada con éxito. En breve un asesor se comunica para coordinar la instalación a domicilio. ¡Bienvenido a Geo Pro!');
+if (params.get('pago') === 'pendiente') showModal('⏳', 'Pago en proceso', 'Tu operación está en proceso de acreditación. Te notificamos por email cuando se confirme y coordinamos la instalación.');
+if (params.get('pago') === 'error')     showToast('❌', 'La operación no se completó. Podés intentarlo nuevamente o contactarnos directamente.', 'error');
+
+loadConfig();
+</script>
+</body>
+</html>
